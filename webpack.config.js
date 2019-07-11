@@ -1,6 +1,6 @@
 const path = require('path')
 const HtmalWebpackPlugin = require('html-webpack-plugin')
-const HtmlWebpackHarddiskPlugin = reguire('html-webpack-harddisk-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 /**
  * [hash]
@@ -27,7 +27,10 @@ module.exports = {
         rules:[
           {
               test: /\.sass$/,
-              use: ['style-loader', 'sass-loader']
+              use: ExtractTextPlugin.extract({
+                fallback: 'style-loader',
+                use: ['css-loader', 'sass-loader']
+              })
           }
         ]
     },
@@ -42,6 +45,8 @@ module.exports = {
         },
         alwaysWriteToDisk: true
       }),
-      new HtmlWebpackHarddiskPlugin()
+      new ExtractTextPlugin({
+          filename: '../build/style.css'
+      })
     ]
 }
